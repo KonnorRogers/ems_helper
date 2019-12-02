@@ -1,6 +1,6 @@
 FROM ruby:2.6.3
 RUN gem install bundler
-RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+RUN apt-get update -qq && apt-get install -y nodejs
 RUN mkdir /myapp
 WORKDIR /myapp
 
