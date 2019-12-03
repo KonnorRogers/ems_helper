@@ -34,3 +34,5 @@ yarn-debug.log*
 
 # Ignore .env files
 .env
+
+tags
