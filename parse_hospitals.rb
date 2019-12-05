@@ -7,4 +7,13 @@ url = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Hospit
 uri = URI(url)
 
 response = Net::HTTP.get(uri)
-puts JSON.parse(response)
+json_response = JSON.parse(response)
+
+FIELDS = %w[STATE CITY WEBSITE NAME TELEPHONE TRAUMA LONGITUDE LATITUDE ZIP ADDRESS COUNTRY]
+array_of_hospitals = json_response["features"]
+
+array_of_hospitals.each do |hospital|
+  hospital["attributes"].each do |k, v|
+    puts k + ": " + v.to_s
+  end
+end
