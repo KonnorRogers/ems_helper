@@ -14,7 +14,7 @@ array_of_hospitals = json_response['features']
 
 array_of_hospitals.each do |hospital|
   hospital['attributes'].each do |k, v|
-    next unless FIELDS.includes?(k)
+    next unless FIELDS.include?(k)
 
     puts k + ': ' + v.to_s
   end
