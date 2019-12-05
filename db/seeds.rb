@@ -8,5 +8,14 @@
 
 
 # https://catalog.data.gov/dataset/hospitals-dcdfc
+# https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Hospitals_1/FeatureServer/0/query?outFields=*&where=1%3D1
 # see above for seeding the db
 
+require 'net-http'
+require 'json'
+
+url = "https://services1.arcgis.com/Hp6G80Pky0om7QvQ/arcgis/rest/services/Hospitals_1/FeatureServer/0/query?outFields=*&where=1%3D1"
+uri = URI(url)
+
+response = Net::HTTP.get(uri)
+JSON.parse(response)
