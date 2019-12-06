@@ -19,11 +19,12 @@ array_of_hospitals.each do |hospital|
     if k == 'TRAUMA' && v != 'NOT AVAILABLE'
       level = v.split('LEVEL ')[1]
 
-      v = level
+      # v = level.length if level != 'IV' && level != 'V'
+      # break if level.nil?
 
-      # return v = 4 if level == 'IV'
-      # return v = 5 if level == 'V'
-      # return v = v.length
+      v = level.size if level != 'IV' && level != 'V'
+      v = 4 if level == 'IV'
+      v = 5 if level == 'V'
     end
 
     puts k + ': ' + v.to_s
