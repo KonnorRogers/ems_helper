@@ -16,6 +16,14 @@ array_of_hospitals.each do |hospital|
   hospital['attributes'].each do |k, v|
     next unless FIELDS.include?(k)
 
+    if k == 'TRAUMA' && v != 'NOT AVAILABLE'
+      level = v.split('LEVEL ')[1]
+
+      v = 4 if level == 'IV'
+      v = 5 if level == 'V'
+      v = v.length if level != 'IV' || level != 'V'
+    end
+
     puts k + ': ' + v.to_s
   end
 end

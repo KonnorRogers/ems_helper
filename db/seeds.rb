@@ -24,13 +24,18 @@ json_response = JSON.parse(response)
 FIELDS = %w[STATE CITY WEBSITE NAME TELEPHONE TRAUMA LONGITUDE LATITUDE ZIP ADDRESS COUNTRY].freeze
 array_of_hospitals = json_response['features']
 
+# Trauma levels are only 1-3
+def trauma_level(string)
+  string.split('LEVEL ').join('').length
+end
+
 array_of_hospitals.each do |hospital|
   hospital['attributes'].each do |k, _v|
     next unless FIELDS.include?(k)
 
     Hospital.create(
       name: k['NAME'],
-      address: k['ADDRESS'],
+      street: k['ADDRESS'],
       state: k['STATE'],
       city: k['CITY'],
       zip_code: k['ZIP'],
