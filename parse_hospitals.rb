@@ -20,6 +20,7 @@ array_of_hospitals.each do |hospital|
       level = v.split('LEVEL ')[1]
 
       v = level
+
       # return v = 4 if level == 'IV'
       # return v = 5 if level == 'V'
       # return v = v.length
