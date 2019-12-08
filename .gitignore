@@ -35,4 +35,6 @@ yarn-debug.log*
 # Ignore .env files
 *.env
 
+json-response
+
 tags
