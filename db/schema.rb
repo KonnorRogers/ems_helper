@@ -25,7 +25,8 @@ ActiveRecord::Schema.define(version: 2019_12_05_115558) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "phone_number"
-    t.integer "trauma_level"
+    t.integer "pediatric_trauma_level"
+    t.integer "adult_trauma_level"
     t.string "website"
     t.string "name"
     t.integer "zip"
