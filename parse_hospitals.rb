@@ -2,7 +2,6 @@
 
 require 'net/http'
 require 'json'
-require 'rake'
 
 # Define a TraumaLevel Struct which will allow you to access the level
 # @param adult [Number, nil] - Adult trauma level (1-5 or nil)
@@ -53,12 +52,10 @@ def parse_trauma_levels(string)
   # IF a hospital is both a an adult trauma & pedi trauma, its designated
   # "LEVEL I, LEVEL II PEDIATRIC"
   if level_string.include?(',')
-    level_array = level_string.split(', ')
-    adult_str = level_array[0]
-    pedi_str = level_array[1].gsub(/ PEDIATRIC/, '')
+    levels = parse_adult_and_pedi_trauma_level(level_string)
 
-    adult_level = parse_trauma_level_string(adult_str)
-    pediatric_level = parse_trauma_level_string(pedi_str)
+    pediatric_level = levels[:pediatric_level]
+    adult_level = levels[:adult_level]
   else
     trauma_level = parse_trauma_level_string(level_string)
 
@@ -67,6 +64,17 @@ def parse_trauma_levels(string)
   end
 
   TraumaLevel.new(adult: adult_level, pediatric: pediatric_level)
+end
+
+def parse_adult_and_pedi_trauma_level(str)
+  level_array = str.split(', ')
+  adult_str = level_array[0]
+  pedi_str = level_array[1].gsub(/ PEDIATRIC/, '')
+
+  adult_level = parse_trauma_level_string(adult_str)
+  pediatric_level = parse_trauma_level_string(pedi_str)
+
+  { adult_level: adult_level, pediatric_level: pediatric_level }
 end
 
 def includes_pediatric_str?(str)
@@ -98,7 +106,7 @@ end
 
 def create_hospital_db
   parse_hospital_fields do |hospital|
-    trauma_level = hospital['TRAUMA']
+    trauma_level = parse_trauma_levels(hospital['TRAUMA'])
     pedi_level = trauma_level.pediatric
     adult_level = trauma_level.adult
 
