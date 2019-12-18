@@ -32,7 +32,7 @@ def parse_hospital_fields
     hospital['attributes'].each do |key, _value|
       next unless fields.include?(key)
 
-      yield(hospital)
+      yield(hospital['attributes'])
     end
   end
 end
@@ -43,7 +43,7 @@ end
 def parse_trauma_levels(string)
   # Some hospitals listed as NOT DESIGNATED, others as NOT AVAILABLE
   not_defined_strings = ['NOT AVAILABLE', 'NOT DEFINED']
-  return nil if not_defined_strings.include?(string)
+  # return nil if not_defined_strings.include?(string)
 
   level_string = string.gsub(/LEVEL /, '')
 
@@ -104,13 +104,18 @@ def parse_trauma_level_string(trauma_level)
   roman_numeral_to_int(trauma_level)
 end
 
+
+Hospital = Struct.new(:name, :address, :city, :state, :country, :zip,
+                      :phone_number, :adult_trauma, :pedi_trauma,
+                      :latitude, :longitude, keyword_init: true)
 def create_hospital_db
   parse_hospital_fields do |hospital|
     trauma_level = parse_trauma_levels(hospital['TRAUMA'])
+    p trauma_level
     pedi_level = trauma_level.pediatric
     adult_level = trauma_level.adult
 
-    Hospital.create!(
+    new_hospital = Hospital.new(
       name: hospital['NAME'],
       address: hospital['ADDRESS'],
       city: hospital['CITY'],
@@ -124,6 +129,8 @@ def create_hospital_db
       latitude: hospital['LATITUDE'],
       longitude: hospital['LONGITUDE']
     )
+
+    p new_hospital
   end
 end
 
