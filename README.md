@@ -5,9 +5,9 @@ needs of the individual.
 
 ## Prerequisites
 
-Ruby 2.6.3
-PostgresQL
-Rails 6.0.1
+Ruby - 2.6.3
+PostgresQL - 11.6
+Rails - 6.0.1
 
 ## Getting started
 
